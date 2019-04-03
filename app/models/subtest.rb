@@ -6,7 +6,11 @@ class Subtest < ApplicationRecord
   # @return Integer Ziskane body
   def vyhodnot(file)
     table = CSV.parse(file, headers: false, col_sep: "\t")
-    table.filter{|line| line.first.include? 'Item'}.sum{|line| vyhodnot_riadok(line)}
+    vyhodnot_riadky table.filter{|line| line.first.include? 'Item'}
+  end
+
+  def vyhodnot_riadky(lines)
+    lines.sum{|line| vyhodnot_riadok(line)}
   end
 
   # @return Integer Ziskane body

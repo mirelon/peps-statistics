@@ -3,8 +3,12 @@ AdminUser.first_or_create(email: 'admin@example.com', password: 'password', pass
 
 # stlpec_spravne a stlpec_client - 0 based, A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7, I=8, J=9, ...
 
+f = Subtest.create(pismeno: 'F', popis: 'Turn End understanding', filename: 'F_Turn End understanding.txt', stlpec_spravne: 7, stlpec_client: 5)
+g = Subtest.create(pismeno: 'G', popis: 'Turn End expression', filename: 'G_Turn End expression.txt', stlpec_spravne: 2, stlpec_client: 4)
 h = Subtest.create(pismeno: 'H', popis: 'Affect understanding', filename: 'H_Affect understanding.txt', stlpec_spravne: 9, stlpec_client: 7)
 i = Subtest.create(pismeno: 'I', popis: 'Affect expression', filename: 'I_Affect expression.txt', stlpec_spravne: 8, stlpec_client: 3)
+p = Subtest.create(pismeno: 'P', popis: 'Contrastive Stress understanding', filename: 'P_Contrastive Stress understanding.txt', stlpec_spravne: 7, stlpec_client: 5)
+q = Subtest.create(pismeno: 'Q', popis: 'Contrastive Stress expression', filename: 'Q_Contrastive stress expression.txt', stlpec_spravne: 2, stlpec_client: 6)
 
 dropbox = DropboxApi::Client.new('iWCZek45F1AAAAAAAABAdDkFN8rQUi2BItdN-6o86i1cbRmusBjwY19d1Kxpu7Uo')
 
@@ -30,7 +34,8 @@ dropbox.list_folder('/PEPS-C_2015_UKGen').entries.map(&:name).filter{|name| /^[\
         when '2'
           'F'
         end
-  client = Client.create(meno: meno, priezvisko: priezvisko, sex: sex, folder: client_folder, rodne_cislo: /(\d*)_/.match(client_folder).captures.first)
+  rodne_cislo = attrs['ID'].strip
+  client = Client.create!(meno: meno, priezvisko: priezvisko, sex: sex, folder: client_folder, rodne_cislo: rodne_cislo)
   puts client.display_name
 
   dropbox.list_folder("/PEPS-C_2015_UKGen/#{client_folder}/Results").entries.map(&:name).each do |test_set_folder|

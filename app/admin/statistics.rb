@@ -16,7 +16,7 @@ ActiveAdmin.register_page 'Statistics' do
       column do
         Subtest.all.each do |subtest|
           panel "Performance on #{subtest.pismeno} subtest" do
-            scatter_chart subtest.data_for_scatter_chart, xtitle: 'Vek', ytitle: 'Body', library: {scales: {
+            scatter_chart subtest.data_for_scatter_chart, max: 16, xtitle: 'Vek', ytitle: 'Body', library: {scales: {
                 xAxes: [{gridLines: {drawOnChartArea: true}, ticks: {stepSize: 1}}],
                 yAxes: [{ticks: {stepSize: 1}}]
             }}

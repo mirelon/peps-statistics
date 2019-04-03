@@ -60,7 +60,7 @@ module RodneCisloCalculations
           return
         end
         unless rodne_cislo.to_i % 11 == 0 or rodne_cislo.last == '0' # K niektorym RC pridali na koniec nulu
-          errors.add(:rodne_cislo, 'Rodné číslo má byť deliteľné 11')
+          errors.add(:rodne_cislo, "Rodné číslo (#{rodne_cislo}) má byť deliteľné 11 (zvyšok je #{rodne_cislo.to_i % 11})")
           return
         end
       else
