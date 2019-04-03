@@ -16,8 +16,11 @@ class Subtest < ApplicationRecord
 
   def data_for_scatter_chart
     performances.map do |p|
-      [p.client.age, p.body]
-    end
+      {
+          sex: p.client.sex,
+          data: [p.client.age, p.body]
+      }
+    end.group_by{|p| p[:sex]}.map{|k,v| {name: k, data: v.map{|vv| vv[:data]}}}
   end
 
   protected
