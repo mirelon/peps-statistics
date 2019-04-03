@@ -1,6 +1,7 @@
 class Subtest < ApplicationRecord
   has_many :performances
   self.inheritance_column = :pismeno
+  self.store_full_sti_class = false
 
   # @return Integer Ziskane body
   def vyhodnot(file)
@@ -12,28 +13,21 @@ class Subtest < ApplicationRecord
   def vyhodnot_riadok(line)
     raise NotImplementedError
   end
-end
 
-class I < Subtest
-  def vyhodnot_riadok(line)
-    a = line[3]
-    b = line[8]
-    if a and b and ((a.last == 'i' and b.last == 'L') or (a.last == '_' and b.last == 'R'))
-      1
-    else
-      0
+  def data_for_scatter_chart
+    performances.map do |p|
+      [p.client.age, p.body]
     end
   end
-end
 
-class H < Subtest
-  def vyhodnot_riadok(line)
-    a = line[stlpec_client]
-    b = line[stlpec_spravne]
-    if a and b and a.last == b.last
-      1
+  protected
+  # Used for creating class according to pismeno
+  # Also for creating association proxy
+  def self.compute_type(type_name)
+    if type_name.== 'Performance'
+      super(type_name)
     else
-      0
+      super("Subtests::#{type_name}")
     end
   end
 end
