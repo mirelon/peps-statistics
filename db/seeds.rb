@@ -24,7 +24,13 @@ dropbox.list_folder('/PEPS-C_2015_UKGen').entries.map(&:name).filter{|name| /^[\
                    .to_h
   meno = attrs['GivenNames'].strip
   priezvisko = attrs['FamilyName'].strip
-  client = Client.create(meno: meno, priezvisko: priezvisko, folder: client_folder, rodne_cislo: /(\d*)_/.match(client_folder).captures.first)
+  sex = case attrs['Sex'].strip
+        when '1'
+          'M'
+        when '2'
+          'F'
+        end
+  client = Client.create(meno: meno, priezvisko: priezvisko, sex: sex, folder: client_folder, rodne_cislo: /(\d*)_/.match(client_folder).captures.first)
   puts client.display_name
 
   dropbox.list_folder("/PEPS-C_2015_UKGen/#{client_folder}/Results").entries.map(&:name).each do |test_set_folder|
