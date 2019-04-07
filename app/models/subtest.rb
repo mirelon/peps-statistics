@@ -10,7 +10,9 @@ class Subtest < ApplicationRecord
   end
 
   def vyhodnot_riadky(lines)
-    lines.sum{|line| vyhodnot_riadok(line)}
+    lines.sum 0 do |line|
+      vyhodnot_riadok(line)
+    end
   end
 
   # @return Integer Ziskane body
@@ -25,6 +27,18 @@ class Subtest < ApplicationRecord
           data: [p.client.age, p.body]
       }
     end.group_by{|p| p[:sex]}.map{|k,v| {name: k, data: v.map{|vv| vv[:data]}}}
+  end
+
+  def statistics_summary(age)
+    performances_with_age = performances.filter{|p| p.client.age(p.datum) == age}
+    count = performances_with_age.count
+    sum = performances_with_age.sum(&:body)
+    if count > 0
+      mean = sum / count
+      performances_with_age.sum{|p| (p.body - mean) ** 2}
+    else
+
+    end
   end
 
   protected

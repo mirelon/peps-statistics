@@ -16,10 +16,29 @@ ActiveAdmin.register_page 'Statistics' do
       column do
         Subtest.all.each do |subtest|
           panel "Performance on #{subtest.pismeno} subtest" do
-            scatter_chart subtest.data_for_scatter_chart, max: 16, xtitle: 'Vek', ytitle: 'Body', library: {scales: {
-                xAxes: [{gridLines: {drawOnChartArea: true}, ticks: {stepSize: 1}}],
-                yAxes: [{ticks: {stepSize: 1}}]
-            }}
+            div do
+              scatter_chart subtest.data_for_scatter_chart, max: 16, xtitle: 'Vek', ytitle: 'Body', library: {scales: {
+                  xAxes: [{gridLines: {drawOnChartArea: true}, ticks: {stepSize: 1}}],
+                  yAxes: [{ticks: {stepSize: 1}}]
+              }}
+            end
+            table class: 'statistics_summary' do
+              tr do
+                th 'Vek'
+                th 'Počet'
+                th 'Priemer'
+                th 'SD'
+              end
+              body_s_vekmi = subtest.performances.joins(:client).pluck(:body, 'date_part(\'year\', age(performances.datum, clients.datum_narodenia))')
+              body_s_vekmi.group_by{|bv| bv[1]}.sort.to_h.each do |age, performances|
+                tr do
+                  td age
+                  td performances.count
+                  td performances.mean{|bv| bv[0]}
+                  td performances.standard_deviation{|bv| bv[0]}
+                end
+              end
+            end
           end
         end
       end

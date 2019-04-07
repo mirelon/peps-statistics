@@ -83,6 +83,7 @@ GEM
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     database_cleaner (1.7.0)
+    descriptive_statistics (2.5.1)
     devise (4.6.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -268,6 +269,7 @@ DEPENDENCIES
   byebug
   chartkick
   database_cleaner
+  descriptive_statistics
   devise
   dropbox_api
   jbuilder (~> 2.5)
