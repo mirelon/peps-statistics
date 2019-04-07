@@ -2,7 +2,7 @@ module RodneCisloCalculations
 
   def self.included(klass)
     raise "Undefined rodne cislo when included #{self} from #{klass}" unless defined? :rodne_cislo
-    klass.validate :validate_rodne_cislo
+    # klass.validate :validate_rodne_cislo
   end
 
   def rok_narodenia_from_rodne_cislo
