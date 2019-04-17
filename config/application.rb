@@ -31,5 +31,6 @@ module Peps
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.public_file_server.enabled = true
   end
 end

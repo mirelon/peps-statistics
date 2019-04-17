@@ -24,9 +24,29 @@ class Subtest < ApplicationRecord
     performances.map do |p|
       {
           sex: p.client.sex,
-          data: [p.client.age, p.body]
+          data: [p.client.age_f, p.body]
       }
     end.group_by{|p| p[:sex]}.map{|k,v| {name: k, data: v.map{|vv| vv[:data]}}}
+  end
+
+  attribute :function
+  attribute :logistic_data
+
+  def calculate_logistic
+    data = performances.map do |p|
+      [p.client.age_f, p.body]
+    end
+    self.logistic_data = Logistic::Data.new(data)
+    self.function = self.logistic_data.function
+  end
+
+  def data_for_line_chart
+    self.logistic_data.to_a
+
+    # by sex
+    # data_for_scatter_chart.map do |s|
+    #   {name: "Fit #{s[:name]}", data: Logistic::Data.new(s[:data]).to_a}
+    # end
   end
 
   def statistics_summary(age)

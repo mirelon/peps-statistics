@@ -52,5 +52,16 @@ dropbox.list_folder('/PEPS-C_2015_UKGen').entries.map(&:name).filter{|name| /^[\
     end
   end
 
-  pp
+  (1..16).each do |i|
+    rc = ''
+    if i < 10
+      rc += '0'
+    end
+    rc += i.to_s
+    rc += '0101'
+    client = Client.create!(meno: "Test #{i}", priezvisko: "Test #{i}", sex: 'M', folder: nil, rodne_cislo: rc)
+    body = Random.rand(16-i..16)
+    client.performances.create(subtest: Subtest.first, body: body, datum: Date.current)
+  end
+
 end

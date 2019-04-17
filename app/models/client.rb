@@ -17,4 +17,12 @@ class Client < ApplicationRecord
     diff = date.year - birthdate.year
     (birthdate + diff.years > date) ? (diff - 1) : diff
   end
+
+  def age_f(date = Date.current)
+    ((date - datum_narodenia_from_rodne_cislo).days / 1.year).to_f
+  end
+
+  def age_i(date = Date.current)
+    ((date - datum_narodenia_from_rodne_cislo).days / 1.year).to_i
+  end
 end

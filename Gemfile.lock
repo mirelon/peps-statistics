@@ -156,6 +156,7 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
+    numo-gnuplot (0.2.4)
     oauth2 (1.4.1)
       faraday (>= 0.8, < 0.16.0)
       jwt (>= 1.0, < 3.0)
@@ -274,6 +275,7 @@ DEPENDENCIES
   dropbox_api
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
+  numo-gnuplot
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
   rails (~> 6.0.0.beta3)
