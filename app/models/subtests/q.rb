@@ -17,20 +17,15 @@ module Subtests
                  'focus14' => 2, # black SHEEP
                  'focus15' => 1, # BLUE cow
                  'focus16' => 2} # black COW
-      puts stlpec_client
       a = line[stlpec_client]
-      puts a
       bbb = line[stlpec_spravne]
-      puts bbb
       bb = /^L:([a-z]*\d*)\.bmp$/.match(bbb).captures.first
-      puts bb
       b = case spravne[bb]
           when 1
             'l'
           when 2
             'r'
           end
-      puts b
       if a and b and a.last == b
         1
       else
