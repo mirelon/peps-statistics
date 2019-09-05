@@ -41,4 +41,13 @@ class ApiController < ApplicationController
     render json: responses
   end
 
+  def download_performances
+    render json: (Performance.all.map do |performance|
+      client = performance.client
+      key = [performance.subtest.pismeno, client.rodne_cislo, client.meno, client.priezvisko, client.sex == 'M' ? 'muz' : 'zena'].join('_')
+      value = [performance.body.to_i, performance.datum.strftime('%y%m%d')].join('_')
+      [key, value]
+    end.to_h)
+  end
+
 end
