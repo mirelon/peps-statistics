@@ -15,6 +15,7 @@ ActiveAdmin.register_page 'Statistics' do
 
       column do
         Subtest.all.each do |subtest|
+          next if subtest.performances.size == 0
           subtest.calculate_logistic
           panel "Performance on #{subtest.pismeno} subtest" do
             div do
