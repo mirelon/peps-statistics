@@ -28,7 +28,7 @@ class ApiController < ApplicationController
         sex = key_parts[4]
         body = value_parts[0].to_i
         datum = Date.parse(value_parts[1])
-        client = Client.first_or_create!(meno: meno, priezvisko: priezvisko, sex: sex, rodne_cislo: rodne_cislo)
+        client = Client.where(meno: meno, priezvisko: priezvisko, sex: sex, rodne_cislo: rodne_cislo).first_or_create!
         client.performances.where(subtest: subtest, datum: datum).first_or_create!(body: body)
         puts "#{client.display_name} - #{subtest.pismeno} - #{body}"
       end
