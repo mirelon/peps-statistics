@@ -14,6 +14,7 @@ class ApiController < ApplicationController
   end
 
   def add_performance
+    responses = []
     params.each do |key, value|
       next unless key.is_a? String and value.is_a? String
       key_parts = key.split('_')
@@ -28,11 +29,16 @@ class ApiController < ApplicationController
         sex = key_parts[4]
         body = value_parts[0].to_i
         datum = Date.parse(value_parts[1])
-        client = Client.where(meno: meno, priezvisko: priezvisko, sex: sex, rodne_cislo: rodne_cislo).first_or_create!
-        client.performances.where(subtest: subtest, datum: datum).first_or_create!(body: body)
-        puts "#{client.display_name} - #{subtest.pismeno} - #{body}"
+        begin
+          client = Client.where(meno: meno, priezvisko: priezvisko, sex: sex, rodne_cislo: rodne_cislo).first_or_create!
+          client.performances.where(subtest: subtest, datum: datum).first_or_create!(body: body)
+          puts "#{client.display_name} - #{subtest.pismeno} - #{body}"
+        rescue ArgumentError => e
+          responses << "#{key}: #{value} - #{e}"
+        end
       end
     end
+    render json: responses
   end
 
 end
