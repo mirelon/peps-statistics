@@ -17,6 +17,7 @@ module RodneCisloCalculations
 
   def mesiac_narodenia_from_rodne_cislo
     return nil if rodne_cislo.blank?
+    return 1 if rodne_cislo.size < 4
     mm = rodne_cislo.from(2).first(2).to_i
     if mm >= 50
       mm - 50
@@ -27,6 +28,7 @@ module RodneCisloCalculations
 
   def den_narodenia_from_rodne_cislo
     return nil if rodne_cislo.blank?
+    return 1 if rodne_cislo.size < 6
     rodne_cislo.from(4).first(2).to_i
   end
 
