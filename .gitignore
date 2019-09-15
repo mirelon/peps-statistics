@@ -24,8 +24,12 @@
 /config/master.key
 /.idea
 *.iml
-/public/images/*
-
+/public/images/F
+/public/images/G
+/public/images/H
+/public/images/I
+/public/images/P
+/public/images/Q
 /public/packs
 /public/packs-test
 /node_modules
