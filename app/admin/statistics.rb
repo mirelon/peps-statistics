@@ -51,8 +51,8 @@ EOL
                 tr do
                   td age
                   td performances.count
-                  td performances.mean{|bv| bv[0]}
-                  td performances.standard_deviation{|bv| bv[0]}
+                  td sprintf('%.2f', performances.mean{|bv| bv[0]})
+                  td sprintf('%.2f', performances.standard_deviation{|bv| bv[0]})
                 end
               end
             end
