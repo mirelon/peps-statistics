@@ -12,12 +12,14 @@ class Client < ApplicationRecord
     "#{meno} #{priezvisko}"
   end
 
+  # @return Integer
   def age(date = Date.current)
     birthdate = datum_narodenia_from_rodne_cislo
     diff = date.year - birthdate.year
     (birthdate + diff.years > date) ? (diff - 1) : diff
   end
 
+  # @return Float
   def age_f(date = Date.current)
     ((date - datum_narodenia_from_rodne_cislo).days / 1.year).to_f
   end

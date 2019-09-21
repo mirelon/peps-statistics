@@ -19,25 +19,10 @@ ActiveAdmin.register_page 'Statistics' do
           subtest.calculate_logistic
           panel "Performance on #{subtest.pismeno} subtest" do
             div do
-              filename = subtest.pismeno
-              file = File.open("public/images/#{filename}", 'w')
-              Numo.gnuplot do
-                set xlabel: 'Vek'
-                set xrange: subtest.logistic_data.xrange
-                set ylabel: 'Body'
-                set yrange: 0..16
-                set title:"Subtest #{filename}"
-                set output:file.path
-                set terminal: 'pngcairo'
-                set style: 'circle radius 0.1'
-                set :grid
-                run <<EOL
-plot 8+8/(1+exp(#{subtest.function.scale}*(#{subtest.function.mean}-x))) with lines notitle, "-" using 1:2 with circles fill solid linecolor rgb "#0000ff" notitle
-#{subtest.logistic_data.data.map{|array| array.join(' ')}.join("\n")}
-e
-EOL
-              end
-              image_tag filename, skip_pipeline: true
+              scatter_chart subtest.data_for_combo_chart, max: 16, xtitle: 'Vek', ytitle: 'Body', library: {scales: {
+                  xAxes: [{gridLines: {drawOnChartArea: true}, ticks: {stepSize: 1}}],
+                  yAxes: [{ticks: {stepSize: 1}}]
+              }}
             end
             table class: 'statistics_summary' do
               tr do

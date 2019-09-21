@@ -29,6 +29,13 @@ class Subtest < ApplicationRecord
     end.group_by{|p| p[:sex]}.map{|k,v| {name: k, data: v.map{|vv| vv[:data]}}}
   end
 
+  # Combines real data with regression line
+  def data_for_combo_chart
+    performances.map do |p|
+      [p.client.age_f(p.datum), p.body]
+    end
+  end
+
   attribute :function
   attribute :logistic_data
 
