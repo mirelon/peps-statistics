@@ -31,9 +31,15 @@ class Subtest < ApplicationRecord
 
   # Combines real data with regression line
   def data_for_combo_chart
-    performances.map do |p|
-      [p.client.age_f(p.datum), p.body]
-    end
+    [{
+         name: 'Aproximácia',
+         data: logistic_data.xrange.map do |x|
+           [x, function.apply(x)]
+         end}, {
+         name: 'Výkony',
+         data: performances.map do |p|
+           [p.client.age_f(p.datum), p.body]
+         end}]
   end
 
   attribute :function
