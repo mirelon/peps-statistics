@@ -33,6 +33,8 @@ ActiveAdmin.register_page 'Statistics' do
               end
               body_s_vekmi = subtest.performances.joins(:client).pluck(:body, 'date_part(\'year\', age(performances.datum, clients.datum_narodenia))')
               body_s_vekmi.group_by{|bv| bv[1]}.sort.to_h.each do |age, performances|
+                require 'descriptive_statistics/safe'
+                performances.extend(DescriptiveStatistics)
                 tr do
                   td age
                   td performances.count

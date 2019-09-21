@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.0'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0.beta3'
@@ -32,7 +32,7 @@ gem 'devise'
 gem 'activeadmin'
 gem 'database_cleaner'
 gem 'dropbox_api'
-gem 'descriptive_statistics'
+gem 'descriptive_statistics', require: false
 gem 'chartkick'
 
 group :development, :test do
