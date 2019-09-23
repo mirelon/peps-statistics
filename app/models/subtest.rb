@@ -33,7 +33,7 @@ class Subtest < ApplicationRecord
   def data_for_combo_chart
     [{
          name: 'Aproximácia',
-         data: logistic_data.xrange.map do |x|
+         data: logistic_data.xrange.step(0.1).map do |x|
            [x, function.apply(x)]
          end}, {
          name: 'Výkony',
