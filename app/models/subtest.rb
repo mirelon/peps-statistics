@@ -1,5 +1,5 @@
 class Subtest < ApplicationRecord
-  has_many :performances
+  has_many :performances, dependent: :destroy
   self.inheritance_column = :pismeno
   self.store_full_sti_class = false
 
