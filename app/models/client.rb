@@ -1,5 +1,5 @@
 class Client < ApplicationRecord
-  has_many :performances
+  has_many :performances, dependent: :destroy
   include RodneCisloCalculations
 
   before_save :calculate_datum_narodenia, if: proc { will_save_change_to_rodne_cislo? }
