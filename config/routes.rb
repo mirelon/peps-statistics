@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   post 'api/performance' => 'api#add_performance'
   match 'api/performance', to: 'api#options_add_performance', via: [:options]
   get 'api/download_performances' => 'api#download_performances'
+  get 'api/download_l2s' => 'api#download_l2s'
 end
