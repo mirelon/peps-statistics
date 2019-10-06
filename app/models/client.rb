@@ -1,5 +1,6 @@
 class Client < ApplicationRecord
-  has_many :performances, dependent: :destroy
+  has_many :performances, through: :sessions
+  has_many :sessions, dependent: :destroy
   include RodneCisloCalculations
 
   before_save :calculate_datum_narodenia, if: proc { will_save_change_to_rodne_cislo? }
@@ -9,7 +10,7 @@ class Client < ApplicationRecord
   end
 
   def display_name
-    "#{meno} #{priezvisko}"
+    "\##{id} #{meno} #{priezvisko}"
   end
 
   # @return Integer

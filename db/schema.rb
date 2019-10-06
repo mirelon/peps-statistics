@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_07_120012) do
+ActiveRecord::Schema.define(version: 2019_10_05_145903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,12 +55,21 @@ ActiveRecord::Schema.define(version: 2019_04_07_120012) do
   create_table "performances", force: :cascade do |t|
     t.date "datum"
     t.decimal "body"
-    t.bigint "client_id"
     t.bigint "subtest_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["client_id"], name: "index_performances_on_client_id"
+    t.bigint "session_id"
+    t.index ["session_id"], name: "index_performances_on_session_id"
     t.index ["subtest_id"], name: "index_performances_on_subtest_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.date "datum"
+    t.bigint "client_id", null: false
+    t.integer "months"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["client_id"], name: "index_sessions_on_client_id"
   end
 
   create_table "subtests", force: :cascade do |t|
@@ -73,6 +82,7 @@ ActiveRecord::Schema.define(version: 2019_04_07_120012) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "performances", "clients"
+  add_foreign_key "performances", "sessions"
   add_foreign_key "performances", "subtests"
+  add_foreign_key "sessions", "clients"
 end

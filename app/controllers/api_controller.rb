@@ -23,22 +23,16 @@ class ApiController < ApplicationController
       puts value_parts.inspect
       if key_parts.size == 5 and value_parts.size == 2
         subtest = Subtest.where(pismeno: key_parts[0]).first!
-        rodne_cislo_or_pocet_mesiacov = key_parts[1]
+        pocet_mesiacov = key_parts[1].to_i
         meno = key_parts[2]
         priezvisko = key_parts[3]
         sex = key_parts[4]
         body = value_parts[0].to_i
         datum = Date.parse(value_parts[1])
-        rodne_cislo = if rodne_cislo_or_pocet_mesiacov.length < 4
-                        # rodne_cislo_or_pocet_mesiacov is just pocet_mesiacov
-                        (datum - rodne_cislo_or_pocet_mesiacov.to_i.months).strftime('%y%m%d')
-                      else
-                        # it is true rodne_cislo (for backwards compatibility)
-                        rodne_cislo_or_pocet_mesiacov
-                      end
         begin
-          client = Client.where(meno: meno, priezvisko: priezvisko, sex: sex, rodne_cislo: rodne_cislo).first_or_create!
-          client.performances.where(subtest: subtest, datum: datum).first_or_create!(body: body)
+          client = Client.where(meno: meno, priezvisko: priezvisko, sex: sex).first_or_create!
+          session = client.sessions.where(datum: datum, months: pocet_mesiacov).first_or_create!
+          session.performances.where(subtest: subtest).first_or_create!(body: body)
           puts "#{client.display_name} - #{subtest.pismeno} - #{body}"
         rescue ArgumentError => e
           responses << "#{key}: #{value} - #{e}"
@@ -51,7 +45,7 @@ class ApiController < ApplicationController
   def download_performances
     render json: (Performance.all.map do |performance|
       client = performance.client
-      key = [performance.subtest.pismeno, performance.pocet_mesiacov, client.meno, client.priezvisko, client.sex].join('_')
+      key = [performance.subtest.pismeno, performance.session.months, client.meno, client.priezvisko, client.sex].join('_')
       value = [performance.body.to_i, performance.datum.strftime('%y%m%d')].join('_')
       [key, value]
     end.to_h)

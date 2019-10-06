@@ -24,7 +24,7 @@ class Subtest < ApplicationRecord
     performances.map do |p|
       {
           sex: p.client.sex,
-          data: [p.client.age_f, p.body]
+          data: [p.years_f, p.body]
       }
     end.group_by{|p| p[:sex]}.map{|k,v| {name: k, data: v.map{|vv| vv[:data]}}}
   end
@@ -38,7 +38,7 @@ class Subtest < ApplicationRecord
          end}, {
          name: 'Výkony',
          data: performances.map do |p|
-           [p.client.age_f(p.datum), p.body]
+           [p.years_f, p.body]
          end}]
   end
 
@@ -47,7 +47,7 @@ class Subtest < ApplicationRecord
 
   def calculate_logistic
     data = performances.map do |p|
-      [p.client.age_f, p.body]
+      [p.years_f, p.body]
     end
     self.logistic_data = Logistic::Data.new(data)
     self.function = self.logistic_data.function
@@ -63,7 +63,7 @@ class Subtest < ApplicationRecord
   end
 
   def statistics_summary(age)
-    performances_with_age = performances.filter{|p| p.client.age(p.datum) == age}
+    performances_with_age = performances.filter{|p| p.years == age}
     count = performances_with_age.count
     sum = performances_with_age.sum(&:body)
     if count > 0
