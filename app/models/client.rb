@@ -1,6 +1,6 @@
 class Client < ApplicationRecord
-  has_many :performances, through: :sessions
   has_many :sessions, dependent: :destroy
+  has_many :performances, through: :sessions
   belongs_to :l2
   include RodneCisloCalculations
 
