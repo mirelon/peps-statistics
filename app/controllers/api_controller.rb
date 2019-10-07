@@ -21,13 +21,13 @@ class ApiController < ApplicationController
       value_parts = value.split('_', -1)
       puts key_parts.inspect
       puts value_parts.inspect
-      if key_parts.size == 6 and value_parts.size == 2
+      if (key_parts.size == 6 or key_parts.size == 5) and value_parts.size == 2
         subtest = Subtest.where(pismeno: key_parts[0]).first!
         pocet_mesiacov = key_parts[1].to_i
         meno = key_parts[2]
         priezvisko = key_parts[3]
         sex = key_parts[4]
-        l2nazov = key_parts[5]
+        l2nazov = key_parts[5] || ''
         body = value_parts[0].to_i
         datum = Date.parse(value_parts[1])
         begin
